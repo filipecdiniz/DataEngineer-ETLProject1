@@ -1,0 +1,5 @@
+SELECT
+	p.ProductID as product_id,
+	REPLACE(p.Name, '''', ' ') as product,
+	ISNULL(p.Color, '') as color
+FROM Production.Product p 

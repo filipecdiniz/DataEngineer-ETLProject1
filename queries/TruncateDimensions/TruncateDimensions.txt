@@ -1,4 +1,0 @@
-truncate table dim_deparadrecontabil;
-truncate table dim_employee;
-truncate table dim_customer;
-truncate table dim_characters;

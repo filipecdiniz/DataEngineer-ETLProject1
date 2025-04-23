@@ -15,7 +15,7 @@ def main():
     Configs = {}
     Configs["Tasks"] = Tasks
 
-    with open('C:\Projects\python\ETLProject-1\connection\connection.txt', 'r') as file:
+    with open('C:\Projects\python\ETLProject-1\src\connection\connection.txt', 'r') as file:
         conn = json.loads(file.read())
         Configs["connections"] = conn['connections']
 

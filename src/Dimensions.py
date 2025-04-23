@@ -1,4 +1,6 @@
 import json
+import sys
+import os
 
 def main():
 
@@ -7,20 +9,10 @@ def main():
         {
             "name": "TruncateDimensions",
             "type": "RunQuery",
-            "active": False,
+            "active": True,
             "DestConnection": 'ETLDatabase'
         },
-
-        #Load From excel
-        {
-            "name": "Gama_InputDeparaDreContabil",
-            "type": "LoadFromExcel",
-            "active": True,
-            "DestTable": "dim_deparadrecontabil",
-            "SheetName": "InputDeparaDreContabil",
-            "DestConnection": "ETLDatabase"
-        },
-        #Load From Database
+        #Load employees From Database
         {
             "name": "dim_employee",
             "type": "LoadFromDatabase",
@@ -29,7 +21,7 @@ def main():
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_employee"
         },
-        #Load customer From Database
+        #Load customers From Database
         {
             "name": "dim_customer",
             "type": "LoadFromDatabase",
@@ -38,28 +30,29 @@ def main():
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_customer"
         },
-        #Load character From API
+        #Load products From Database
         {
-            "name": "dim_characters",
-            "type": "LoadFromAPI",
+            "name": "dim_product",
+            "type": "LoadFromDatabase",
             "active": True,
-            "SourceConnection": "RickAndMortyAPI",
-            "sufixURL": "character",
-            "key": "results",
-            "columns": ["id", "name", "status", "gender"],
+            "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
-            "DestTable": "dim_characters"
-        },
+            "DestTable": "dim_product"
+        }
     ]
 
     Configs = {}
     Configs["Tasks"] = Tasks
 
-    with open('C:\Projects\python\ETLProject-1\connection\connection.txt', 'r') as file:
+    with open('C:\Projects\python\ETLProject-1\src\connection\connection.txt', 'r') as file:
         conn = json.loads(file.read())
         Configs["connections"] = conn['connections']
 
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.append(project_root)
+
     from ETL import ETL
+    
     ETL(Configs)
 
 main()

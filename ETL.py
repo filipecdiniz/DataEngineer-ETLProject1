@@ -22,7 +22,7 @@ class ETL:
 
     def RunQuery(self, task):
         if(task['active'] == True):
-            with open(f'C:\Projects\python\ETLProject-1\queries\{task['name']}\{task['name']}.txt') as query:
+            with open(f'C:\Projects\python\ETLProject-1\src\queries\{task['name']}\{task['name']}.txt') as query:
                 for conn in self.connections:
                     if(conn["name"] == task["DestConnection"]):
                         connection = psycopg2.connect(f'postgresql://{conn['user']}:{conn['password']}@{conn['host']}:{conn['port']}/{conn['database']}')
@@ -39,7 +39,8 @@ class ETL:
 
     def LoadFromExcel(self, task):
         if(task['active'] == True):
-            data = pd.read_excel(f'.\datasets\{task['name']}.xlsx', sheet_name='InputDeparaDreContabil')
+            
+            data = pd.read_excel(f'C:\Projects\python\ETLProject-1\src\datasets\{task['name']}.xlsx', sheet_name=task['SheetName'])
             destConnectionConfig = next(conn for conn in self.connections if conn['name'] == task['DestConnection'])
             connection = psycopg2.connect(f'postgresql://{destConnectionConfig['user']}:{destConnectionConfig['password']}@{destConnectionConfig['host']}:{destConnectionConfig['port']}/{destConnectionConfig['database']}')
             cursor = connection.cursor()
@@ -66,7 +67,7 @@ class ETL:
         
     def LoadFromDatabase(self, task):
         if(task['active'] == True):
-            with open(f'C:\Projects\python\ETLProject-1\queries\{task['name']}\{task['name']}.txt') as query:
+            with open(f'C:\Projects\python\ETLProject-1\src\queries\{task['name']}\{task['name']}.txt') as query:
                 destConnection = {}
                 sourceConnection = {}
 
@@ -143,5 +144,4 @@ class ETL:
                     print('aqui!')
             finally:
                 return
-            
             

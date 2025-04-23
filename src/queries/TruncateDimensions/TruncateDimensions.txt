@@ -1,0 +1,3 @@
+truncate table dim_employee;
+truncate table dim_customer;
+truncate table dim_product;
