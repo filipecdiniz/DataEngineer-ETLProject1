@@ -1,0 +1,11 @@
+SELECT
+	sod.SalesOrderID as salesorder_id,
+	sod.Productid as product_id,
+	sod.OrderQty as quantity,
+	soh.OrderDate as order_date,
+	soh.CustomerID as customer_id,
+	sod.LineTotal as total_value,
+	soh.SalesPersonID 
+FROM Sales.SalesOrderDetail sod 
+LEFT JOIN Sales.SalesOrderHeader soh on soh.SalesOrderID = sod.SalesOrderID 
+WHERE soh.CustomerID = 29825

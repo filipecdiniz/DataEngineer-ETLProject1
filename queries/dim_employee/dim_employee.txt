@@ -1,0 +1,9 @@
+SELECT 
+	P.BusinessEntityID AS employee_id,
+    P.firstname,
+    ISNULL(P.MiddleName, '') AS middlename,
+    REPLACE(P.LastName, '''', ' ') AS lastname,
+    CONCAT(ISNULL(P.FirstName, ''), ' ', P.MiddleName, ' ', REPLACE(P.LastName, '''', ' ')) AS full_name,
+    CONCAT(P.BusinessEntityID, ' - ', ISNULL(P.FirstName, ''), ' ', P.MiddleName, ' ', REPLACE(P.LastName, '''', ' ')) AS Person_description
+FROM HumanResources.Employee EMP
+LEFT JOIN Person.Person P ON P.BusinessEntityID = EMP.BusinessEntityID;

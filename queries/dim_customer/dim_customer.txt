@@ -1,0 +1,10 @@
+SELECT 
+	C.CustomerID AS customer_id,
+	ISNULL(C.PersonID, 0) as person_id,
+    ISNULL(P.firstname, '') as firstname,
+    ISNULL(P.MiddleName, '') AS middlename,
+    ISNULL(REPLACE(P.LastName, '''', ' '), '') AS lastname,
+    CONCAT(ISNULL(P.FirstName, ''), ' ', P.MiddleName, ' ', REPLACE(P.LastName, '''', ' ')) AS full_name,
+    CONCAT(P.BusinessEntityID, ' - ', ISNULL(P.FirstName, ''), ' ', P.MiddleName, ' ', REPLACE(P.LastName, '''', ' ')) AS person_description
+FROM Sales.Customer C
+LEFT JOIN Person.Person P ON P.BusinessEntityID = C.PersonID ;

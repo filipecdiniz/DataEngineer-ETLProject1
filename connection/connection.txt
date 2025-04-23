@@ -1,0 +1,27 @@
+{
+    "connections" : [
+        {
+            "name": "ETLDatabase",
+            "type": "postgres",
+            "host": "localhost",
+            "user": "postgres",
+            "password": "etl2025",
+            "database": "ETLProject",
+            "port": "5454"
+        },
+        {
+            "name": "AdventureWorks2022",
+            "type": "SQLServer",
+            "host": "localhost",
+            "user": "sa",
+            "password": "SqlServerETL2025!",
+            "database": "AdventureWorks2022",
+            "port": "1433"
+        },
+        {
+            "name": "RickAndMortyAPI",
+            "type": "API",
+            "url": "http://rickandmortyapi.com/api"
+        }
+    ]
+}
