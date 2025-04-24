@@ -1,0 +1,6 @@
+SELECT 
+	d.DepartmentID as department_id ,
+	d.Name as department,
+	GroupName as group_name,
+	CONCAT(d.DepartmentID, ' - ', d.Name) as department_description
+FROM HumanResources.Department d 

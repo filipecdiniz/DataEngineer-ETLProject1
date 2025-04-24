@@ -1,0 +1,6 @@
+select 
+	st.TerritoryID as territory_id,
+	st.Name as territory,
+	st.CountryRegionCode as country,
+	st."Group" as continent
+from Sales.SalesTerritory st 

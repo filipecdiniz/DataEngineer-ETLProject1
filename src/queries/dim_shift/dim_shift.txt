@@ -1,0 +1,6 @@
+SELECT 
+	s.ShiftID as shift_id,
+	s.Name as shift,
+	s.StartTime as start_shift,
+	s.EndTime as end_shift
+FROM HumanResources.Shift s 

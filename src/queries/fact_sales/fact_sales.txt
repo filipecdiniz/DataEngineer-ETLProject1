@@ -5,7 +5,12 @@ SELECT
 	soh.OrderDate as order_date,
 	soh.CustomerID as customer_id,
 	sod.LineTotal as total_value,
-	soh.SalesPersonID 
+	edh.DepartmentID AS department_id,
+	edh.ShiftID as shift_id,
+	soh.TerritoryID as territory_id
 FROM Sales.SalesOrderDetail sod 
 LEFT JOIN Sales.SalesOrderHeader soh on soh.SalesOrderID = sod.SalesOrderID 
-WHERE soh.CustomerID = 29825
+LEFT JOIN Sales.SalesPerson sp on soh.SalesPersonID = sp.BusinessEntityID 
+LEFT JOIN HumanResources.Employee emp on emp.BusinessEntityID = sp.BusinessEntityID 
+LEFT JOIN HumanResources.EmployeeDepartmentHistory edh ON emp.BusinessEntityID = edh.BusinessEntityID
+--WHERE soh.CustomerID = 29825
