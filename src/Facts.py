@@ -1,4 +1,6 @@
 import json
+import sys
+import os
 
 def main():
 
@@ -9,6 +11,15 @@ def main():
             "type": "RunQuery",
             "active": True,
             "DestConnection": 'ETLDatabase'
+        },
+        #Load sales From Database
+        {
+            "name": "fact_sales",
+            "type": "LoadFromDatabase",
+            "active": True,
+            "SourceConnection": "AdventureWorks2022",
+            "DestConnection": "ETLDatabase",
+            "DestTable": "fact_sales"
         }
     ]
 
@@ -19,6 +30,11 @@ def main():
         conn = json.loads(file.read())
         Configs["connections"] = conn['connections']
 
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.append(project_root)
+
     from ETL import ETL
+    
     ETL(Configs)
+
 main()

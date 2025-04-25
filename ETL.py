@@ -88,11 +88,14 @@ class ETL:
                 # For any Tuple, in sourceCursor.description you're asking for the first item in tuple (the name of the column).
                 columns = ", ".join([col[0] for col in sourceCursor.description])
 
-                for value in res:
-                    destCursor.execute(f"""
-                            INSERT INTO {task['DestTable']} ({columns})
-                            VALUES {value};
-                        """)
+                placeholders = ", ".join(["%s"] * len(sourceCursor.description))
+            
+                # Prepare insert statement
+                insert_query = f"INSERT INTO {task['DestTable']} ({columns}) VALUES ({placeholders})"
+
+
+                for row in res:
+                    destCursor.execute(insert_query, row)
 
                 destConnection.commit()
                 

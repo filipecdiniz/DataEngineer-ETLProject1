@@ -1,16 +1,19 @@
 SELECT
-	sod.SalesOrderID as salesorder_id,
+	sod.SalesOrderID as order_id,
 	sod.Productid as product_id,
-	sod.OrderQty as quantity,
 	soh.OrderDate as order_date,
 	soh.CustomerID as customer_id,
 	sod.LineTotal as total_value,
-	edh.DepartmentID AS department_id,
-	edh.ShiftID as shift_id,
-	soh.TerritoryID as territory_id
+	sod.OrderQty as quantity,
+	ISNULL(edh.DepartmentID, 0) AS department_id,
+	ISNULL(edh.ShiftID, 0) as shift_id,
+	soh.TerritoryID as territory_id,
+	prod.ProductSubcategoryID as product_subcategory_id,
+	sub.ProductCategoryID as product_category_id
 FROM Sales.SalesOrderDetail sod 
 LEFT JOIN Sales.SalesOrderHeader soh on soh.SalesOrderID = sod.SalesOrderID 
 LEFT JOIN Sales.SalesPerson sp on soh.SalesPersonID = sp.BusinessEntityID 
 LEFT JOIN HumanResources.Employee emp on emp.BusinessEntityID = sp.BusinessEntityID 
 LEFT JOIN HumanResources.EmployeeDepartmentHistory edh ON emp.BusinessEntityID = edh.BusinessEntityID
---WHERE soh.CustomerID = 29825
+LEFT JOIN Production.Product prod on sod.Productid = prod.ProductID 
+LEFT JOIN Production.ProductSubcategory sub on prod.ProductSubcategoryID = sub.ProductSubcategoryID 
