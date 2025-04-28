@@ -38,7 +38,34 @@ def main():
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_product"
-        }
+        },
+        #Load department From Database
+        {
+            "name": "dim_department",
+            "type": "LoadFromDatabase",
+            "active": True,
+            "SourceConnection": "AdventureWorks2022",
+            "DestConnection": "ETLDatabase",
+            "DestTable": "dim_department"
+        },
+        #Load shift From Database
+        {
+            "name": "dim_shift",
+            "type": "LoadFromDatabase",
+            "active": True,
+            "SourceConnection": "AdventureWorks2022",
+            "DestConnection": "ETLDatabase",
+            "DestTable": "dim_shift"
+        },
+        #Load territory From Database
+        {
+            "name": "dim_territory",
+            "type": "LoadFromDatabase",
+            "active": True,
+            "SourceConnection": "AdventureWorks2022",
+            "DestConnection": "ETLDatabase",
+            "DestTable": "dim_territory"
+        },
     ]
 
     Configs = {}

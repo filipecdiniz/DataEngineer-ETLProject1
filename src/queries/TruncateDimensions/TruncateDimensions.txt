@@ -1,3 +1,6 @@
 truncate table dim_employee;
 truncate table dim_customer;
 truncate table dim_product;
+truncate table dim_department;
+truncate table dim_shift;
+truncate table dim_territory;

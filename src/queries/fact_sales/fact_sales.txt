@@ -3,6 +3,7 @@ SELECT
 	sod.Productid as product_id,
 	soh.OrderDate as order_date,
 	soh.CustomerID as customer_id,
+	ISNULL(soh.SalesPersonID, 0) as employee_id,
 	sod.LineTotal as total_value,
 	sod.OrderQty as quantity,
 	ISNULL(edh.DepartmentID, 0) AS department_id,
