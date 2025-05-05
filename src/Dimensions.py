@@ -9,14 +9,14 @@ def main():
         {
             "name": "TruncateDimensions",
             "type": "RunQuery",
-            "active": True,
+            "active": False,
             "DestConnection": 'ETLDatabase'
         },
         #Load employees From Database
         {
             "name": "dim_employee",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_employee"
@@ -25,7 +25,7 @@ def main():
         {
             "name": "dim_customer",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_customer"
@@ -34,7 +34,7 @@ def main():
         {
             "name": "dim_product",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_product"
@@ -43,7 +43,7 @@ def main():
         {
             "name": "dim_department",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_department"
@@ -52,7 +52,7 @@ def main():
         {
             "name": "dim_shift",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_shift"
@@ -61,7 +61,7 @@ def main():
         {
             "name": "dim_territory",
             "type": "LoadFromDatabase",
-            "active": True,
+            "active": False,
             "SourceConnection": "AdventureWorks2022",
             "DestConnection": "ETLDatabase",
             "DestTable": "dim_territory"
@@ -70,6 +70,8 @@ def main():
 
     Configs = {}
     Configs["Tasks"] = Tasks
+                                                    # PostgreSQL Jar Path                    ||                      # SQL Server Jar Path
+    Configs['jars'] = '/home/filipe.diniz.spark1/opt/jars/postgresql-42.2.27.jar, /home/filipe.diniz.spark1/opt/jars/mssql-jdbc-12.10.0.jre11.jar'
 
     with open('C:\Projects\python\ETLProject-1\src\connection\connection.txt', 'r') as file:
         conn = json.loads(file.read())

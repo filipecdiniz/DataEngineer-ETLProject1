@@ -2,10 +2,14 @@ import pandas as pd
 import psycopg2
 import pyodbc
 import requests
+from pyspark.sql import SparkSession
 
 class ETL:
     def __init__(self, Configs):
         self.connections = Configs['connections']
+        self.jars = Configs['jars']
+        self.BuildSparkSession()
+        print(self.SparkSession)
         for task in Configs['Tasks']:
             if (task['type'] == 'RunQuery'):
                 self.RunQuery(task)
@@ -19,6 +23,15 @@ class ETL:
                 # self.RunQuery()
             elif (task['type'] == 'LoadFromAPI'):
                 self.LoadFromAPI(task)
+        
+    def BuildSparkSession(self):
+        spark = SparkSession.builder \
+            .appName('Spark-App') \
+            .master('spark://192.168.56.101:7077') \
+            .config('spark.jars', self.jars) \
+            .getOrCreate()
+        print('Spark Session created!')
+        self.SparkSession = spark
 
     def RunQuery(self, task):
         if(task['active'] == True):
@@ -65,7 +78,7 @@ class ETL:
         elif(task['active'] == False):
             return
         
-    def LoadFromDatabase(self, task):
+    def LoadFromDatabase(self, task, spark_session):
         if(task['active'] == True):
             with open(f'C:\Projects\python\ETLProject-1\src\queries\{task['name']}\{task['name']}.txt') as query:
                 destConnection = {}

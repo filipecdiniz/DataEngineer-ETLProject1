@@ -2,7 +2,7 @@
     "connections" : [
         {
             "name": "ETLDatabase",
-            "type": "postgres",
+            "type": "Postgres",
             "host": "localhost",
             "user": "postgres",
             "password": "etl2025",
