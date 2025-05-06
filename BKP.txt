@@ -89,7 +89,7 @@ class ETL:
                 df2 = self.SparkSession.read \
                     .format("jdbc") \
                     .option("url", f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={sourceConnectionConfig['host']};DATABASE={sourceConnectionConfig['database']};UID={sourceConnectionConfig['user']};PWD={sourceConnectionConfig['password']}') \
-                    .option("driver", sourceConnectionConfig['driver']) \
+                    .option("driver", sourceConnection['driver']) \
                     .query("query", query) \
                     .load()
                 
@@ -101,6 +101,37 @@ class ETL:
                     .option("password", f"{destConnectionConfig['password']}") \
                     .option("dtable", f"{task['DestTable']}") \
                     .save()
+                
+                sourceConnection = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={sourceConnectionConfig['host']};DATABASE={sourceConnectionConfig['database']};UID={sourceConnectionConfig['user']};PWD={sourceConnectionConfig['password']}')
+                destConnection = psycopg2.connect(f'postgresql://{destConnectionConfig['user']}:{destConnectionConfig['password']}@{destConnectionConfig['host']}:{destConnectionConfig['port']}/{destConnectionConfig['database']}')
+
+                destCursor = destConnection.cursor()
+                sourceCursor = sourceConnection.cursor()
+
+                
+                sourceCursor.execute(query.read())
+                res = sourceCursor.fetchall()
+
+                # sourceCursor.description is a List of Tuples with all information about the query, the first item in the Tuple is the name of the column. 
+                # For any Tuple, in sourceCursor.description you're asking for the first item in tuple (the name of the column).
+                columns = ", ".join([col[0] for col in sourceCursor.description])
+
+                placeholders = ", ".join(["%s"] * len(sourceCursor.description))
+            
+                # Prepare insert statement
+                insert_query = f"INSERT INTO {task['DestTable']} ({columns}) VALUES ({placeholders})"
+
+
+                for row in res:
+                    destCursor.execute(insert_query, row)
+
+                destConnection.commit()
+                
+                destCursor.close()
+                destConnection.close()
+
+                sourceCursor.close()
+                sourceConnection.close()
 
                 return
         else:
