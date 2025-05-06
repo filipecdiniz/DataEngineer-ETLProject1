@@ -1,0 +1,22 @@
+# Returns the data in Data Frame format
+df = spark.read.csv('<PATH>', header=False, schema=<schema>)
+
+# Returns the data in Data Frame format
+df2 = spark.read \
+    .format("jdbc") \
+    .option("url", "Connection URL") \
+    .option("driver", "<DRIVER>") \
+    .query("query", <query>) \
+    .load()
+
+# Write de dataframe data in another database and table.
+df2.write \
+    .format("jdbc") \
+    .option("url", "<Connection URL>") \
+    .option("user", "<Database user>") \
+    .option("password", "<Database user password>") \
+    .option("dtable", "<Table Name>") \
+    .save()
+
+# Kills the spark session.
+spark.stop()
